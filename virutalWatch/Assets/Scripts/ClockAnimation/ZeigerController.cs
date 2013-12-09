@@ -8,6 +8,7 @@ public class ZeigerController : MonoBehaviour {
 	public GameObject minuteHand;
 	public GameObject hourHand;
 	public GameObject secondHand;
+	public int secondsUntilReset = 10;
 	
 	private Vector2 previousPos;
 	private Vector2 center;
@@ -22,13 +23,12 @@ public class ZeigerController : MonoBehaviour {
 		
 		
 		center = new Vector2(transform.position.x, transform.position.y);
-		//LeapInput.PointingFingerFound += HandleLeapInputPointingFingerFound;
-		//LeapInput.PointingFingerLost += HandleLeapInputPointingFingerLost;
-		//LeapInput.PointingFingerUpdated += HandleLeapInputPointingFingerUpdated;
+		LeapInput.PointingFingerFound += HandleLeapInputPointingFingerFound;
+		LeapInput.PointingFingerLost += HandleLeapInputPointingFingerLost;
+		LeapInput.PointingFingerUpdated += HandleLeapInputPointingFingerUpdated;
 		
-		hourHand.transform.Rotate(Vector3.forward, CalculateHourHandRotation());
-		minuteHand.transform.Rotate(Vector3.forward, CalculateMinuteHandRotation());
-		secondHand.transform.Rotate(Vector3.forward, CalculateSecondHandRotation());
+		secondHand.transform.Rotate(Vector3.forward, CalculateSecondHandRotation());	
+		ResetClock();
 		
 		hourHand.renderer.material.color = Color.white;
 		minuteHand.renderer.material.color = Color.blue;
@@ -52,9 +52,19 @@ public class ZeigerController : MonoBehaviour {
 		Vector3 rotationAxis = Vector3.Cross(previousPos, currentPos);
 		
 		hourHand.transform.Rotate(rotationAxis, angle );
-		minuteHand.transform.Rotate(rotationAxis, -angle * 12);
+		minuteHand.transform.Rotate(rotationAxis, angle * 12);
 		
 		previousPos = currentPos;
+	}
+	
+	private void ResetClock(){
+			
+		Debug.Log(CalculateHourHandRotation());
+		//set rotation to current time
+		iTween.RotateTo(hourHand.gameObject, new Vector3(0,0, CalculateHourHandRotation()), 1f);
+		iTween.RotateTo(minuteHand.gameObject, new Vector3(0,0, CalculateMinuteHandRotation()), 1f);
+		
+		
 	}
 	
 	private void setHourHandColor(float angle){
@@ -62,13 +72,15 @@ public class ZeigerController : MonoBehaviour {
 		float h = angle > 0.0f ? Helper.Map(angle, 1.0f, MAX_ANGLE_STEP, 120f, 0f) : 120f;
 		
 		Color hourHandColor = Helper.ColorFromHSV(h, 1f, 1f);
-		Debug.Log (hourHandColor);
 		hourHand.renderer.material.color = hourHandColor;
 	}
 
 	void HandleLeapInputPointingFingerLost ()
 	{
 		hourHand.renderer.material.color = Color.white;
+		float rotZSnapped = (float)(Math.Round(minuteHand.transform.localRotation.eulerAngles.z / 90) * 90);
+		iTween.RotateTo(minuteHand.gameObject, new Vector3(0,0,rotZSnapped), 0.5f);
+		Invoke("ResetClock", secondsUntilReset);
 		
 	}
 
@@ -76,8 +88,11 @@ public class ZeigerController : MonoBehaviour {
 	{
 
 		previousPos = CenterToFingerTip(p.StabilizedTipPosition.ToUnityTranslated());
+		CancelInvoke("ResetClock");
 		
 	}
+	
+	
 	
 	
 	private Vector2 CenterToFingerTip(Vector3 fingerTip){
