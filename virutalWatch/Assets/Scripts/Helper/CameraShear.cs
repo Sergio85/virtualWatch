@@ -176,7 +176,7 @@ public class CameraShear : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         pc = GO_TopLeft.transform.position;
         screen.transform.TransformPoint(pc);
