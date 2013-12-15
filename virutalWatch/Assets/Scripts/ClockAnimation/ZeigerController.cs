@@ -108,6 +108,7 @@ public class ZeigerController : MonoBehaviour {
 		float angleHourHand = hour * (360/12);
 		angleHourHand += DateTime.Now.Minute * (360.0f/(12 * 60));
 		return -angleHourHand;
+
 	}
 	
 	private float CalculateMinuteHandRotation(){
