@@ -28,6 +28,11 @@ public static class LeapInput
 	public delegate void FingerUpdatedHandler(Pointable p);
 	public delegate void FingerLostHandler();
 	
+	
+	public delegate void SwipeGestureStartHandler(CustomSwipeGesture g);
+	public delegate void SwipeGestureUpdateHandler(CustomSwipeGesture g);
+	public delegate void SwipeGestureEndHandler(CustomSwipeGesture g);
+	
 	/// <summary>
 	/// Event delegates are trigged every frame in the following order:
 	/// Hand Found, Pointable Found, Hand Updated, Pointable Updated,
@@ -45,6 +50,13 @@ public static class LeapInput
 	public static event FingerUpdatedHandler PointingFingerUpdated;
 	public static event FingerLostHandler PointingFingerLost;
 	
+	public static event SwipeGestureStartHandler HorizontalSwipeStart;
+	public static event SwipeGestureStartHandler VerticalSwipeStart;
+	public static event SwipeGestureUpdateHandler HorizontalSwipeUpdate;
+	public static event SwipeGestureUpdateHandler VerticalSwipeUpdate;
+	public static event SwipeGestureEndHandler HorizontalSwipeEnd;
+	public static event SwipeGestureEndHandler VerticalSwipeEnd;
+	
 	public static Leap.Frame Frame
 	{
 		get { return m_Frame; }
@@ -52,6 +64,8 @@ public static class LeapInput
 	
 	public static void Start(){
 		m_controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
+		m_controller.Config.SetFloat("MinVelocity", 500f);
+		m_controller.Config.Save();
 	}
 	
 	public static void Update() 
@@ -66,7 +80,12 @@ public static class LeapInput
 			DispatchLostEvents(Frame, lastFrame);
 			DispatchFoundEvents(Frame, lastFrame);
 			DispatchUpdatedEvents(Frame, lastFrame);
-			RecognizePointingGesture();
+			bool checkForSwipe = !RecognizePointingGesture();
+			
+			if(checkForSwipe){
+				RecognizeSwipeGesture();
+			}
+			
 			
 		}
 	}
@@ -85,26 +104,52 @@ public static class LeapInput
 	
 	static Leap.Frame			m_Frame			= null;
 	static PointingGestureRecognizer pointingGestureRecognizer = new PointingGestureRecognizer();
+	static SwipeGestureRecognizer swipeGestureRecoginizer = new SwipeGestureRecognizer();
 	
-	private static void RecognizePointingGesture(){
+	
+	private static void RecognizeSwipeGesture(){
+		Gesture.GestureState state = swipeGestureRecoginizer.Update(Frame);
+		CustomSwipeGesture gesture = swipeGestureRecoginizer.CurrentSwipe;
+		if(HorizontalSwipeStart!= null && state == Gesture.GestureState.STATESTART && gesture.isHorizontal())
+			HorizontalSwipeStart(gesture);
+		else if(VerticalSwipeStart!= null && state == Gesture.GestureState.STATESTART && gesture.isVertical())
+			VerticalSwipeStart(gesture);
+		else if(HorizontalSwipeUpdate != null && state == Gesture.GestureState.STATEUPDATE && gesture.isHorizontal())
+			HorizontalSwipeUpdate(gesture);
+		else if(VerticalSwipeUpdate != null && state == Gesture.GestureState.STATEUPDATE && gesture.isVertical())
+			VerticalSwipeUpdate(gesture);
+		else if(HorizontalSwipeEnd != null && state == Gesture.GestureState.STATESTOP && gesture.isHorizontal())
+			HorizontalSwipeEnd(gesture);
+		else if(VerticalSwipeEnd != null && state == Gesture.GestureState.STATESTOP && gesture.isVertical())
+			VerticalSwipeEnd(gesture);
+		
+	}
+	
+	
+	private static bool RecognizePointingGesture(){
 		Gesture.GestureState pointingGestureState = pointingGestureRecognizer.Update(Frame);
 		switch(pointingGestureState){
 		case Gesture.GestureState.STATESTART:
 			if(PointingFingerFound != null){
-				PointingFingerFound(pointingGestureRecognizer.TrackedPointable);	
+				PointingFingerFound(pointingGestureRecognizer.TrackedPointable);
+				return true;
 			}
 			break;
 		case Gesture.GestureState.STATEUPDATE:
 			if(PointingFingerUpdated != null){
-				PointingFingerUpdated(pointingGestureRecognizer.TrackedPointable);	
+				PointingFingerUpdated(pointingGestureRecognizer.TrackedPointable);
+				return true;
 			}
 			break;
 		case Gesture.GestureState.STATESTOP:
 			if(PointingFingerLost != null){
-				PointingFingerLost();	
+				PointingFingerLost();
+				return true;
 			}
 			break;
-		}	
+		}
+		
+		return false;
 	}
 	
 	private static void DispatchLostEvents(Frame newFrame, Frame oldFrame)
@@ -127,7 +172,8 @@ public static class LeapInput
 		
 	}
 	private static void DispatchFoundEvents(Frame newFrame, Frame oldFrame)
-	{
+	{		
+		
 		foreach( Hand h in newFrame.Hands )
 		{
 			if( !h.IsValid )

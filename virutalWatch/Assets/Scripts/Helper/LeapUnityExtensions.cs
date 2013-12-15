@@ -22,17 +22,23 @@ namespace Leap {
 		//For Directions
 		public static Vector3 ToUnity(this Vector lv)
 		{
-			return FlippedZ(lv);
+			return Rotated(FlippedZ(lv));
 		}
 		//For Acceleration/Velocity
 		public static Vector3 ToUnityScaled(this Vector lv)
 		{
-			return Scaled(FlippedZ( lv ));
+			return Scaled(Rotated(FlippedZ( lv )));
 		}
 		//For Positions
 		public static Vector3 ToUnityTranslated(this Vector lv)
 		{
-			return Offset(Scaled(FlippedZ( lv )));
+			return Offset(Scaled(Rotated(FlippedZ( lv ))));
+		}
+		
+		private static Vector3 Rotated(Vector3 v){
+			Matrix4x4 transformMatrix = new Matrix4x4();
+			transformMatrix.SetTRS(Vector3.zero, Quaternion.Euler(new Vector3(0, 0, 180f)), Vector3.one);
+			return transformMatrix.MultiplyVector(v);
 		}
 
 		private static Vector3 Scaled( Vector3 v ) { return new Vector3( v.x * InputScale.x,
@@ -40,15 +46,7 @@ namespace Leap {
 																		 v.z * InputScale.z ); }
 		private static Vector3 Offset( Vector3 v ) 
 		{ 
-			
-			
-			
-			Matrix4x4 transformMatrix = new Matrix4x4();
-			transformMatrix.SetTRS(Vector3.zero, Quaternion.Euler(new Vector3(0, 0, 180f)), Vector3.one);
-			Vector3 transformed = transformMatrix.MultiplyVector(v) + InputOffset;
-			
-			
-			return transformed;
+			return v + InputOffset;
 		}
 		
 		private static Vector3 FlippedZ(this Vector lv){

@@ -28,6 +28,7 @@ public class PointingGestureRecognizer
 		}
 		else{
 			
+			//Wait for activation
 			if(frame.Pointables.Count == 1){
 				countFrames++;	
 			}
@@ -35,6 +36,7 @@ public class PointingGestureRecognizer
 				countFrames = 0;
 			}
 			
+			//Trigger Start-Event if Frame-Treshold reached
 			if(countFrames == FRAMES_TILL_DETECTION){
 				trackedPointable = frame.Pointables[0];
 				countFrames = 0;

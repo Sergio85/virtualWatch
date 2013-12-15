@@ -59,6 +59,7 @@ public class LeapUnityBridge : MonoBehaviour
 			return;
 		}
 		CreateSceneHands();
+		LeapInput.Start();
 	}
 	void OnDestroy()
 	{
