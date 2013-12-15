@@ -31,6 +31,6 @@ public class Lupe : MonoBehaviour {
 		}
 
 
-		Debug.Log ("texturgroesse: " + lupe.renderer.material.GetTextureScale ("_MainTex"));
+		
 	}
 }

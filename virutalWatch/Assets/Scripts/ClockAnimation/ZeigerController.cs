@@ -8,6 +8,15 @@ public class ZeigerController : MonoBehaviour {
 	public GameObject minuteHand;
 	public GameObject hourHand;
 	public GameObject secondHand;
+	
+	public Material interactionMaterial;
+	private Material defaultMaterial;
+	
+	//Lupe
+	private GameObject magnifier;
+	
+	
+	
 	public int secondsUntilReset = 10;
 	
 	private Vector2 previousPos;
@@ -20,6 +29,8 @@ public class ZeigerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
+		magnifier = hourHand.transform.Find("lupe").gameObject;
+		defaultMaterial = magnifier.renderer.material;
 		
 		
 		center = new Vector2(transform.position.x, transform.position.y);
@@ -29,9 +40,7 @@ public class ZeigerController : MonoBehaviour {
 		
 		secondHand.transform.Rotate(Vector3.forward, CalculateSecondHandRotation());	
 		ResetClock();
-		
-		hourHand.renderer.material.color = Color.white;
-		minuteHand.renderer.material.color = Color.blue;
+ 
 	}
 
 	void HandleLeapInputPointingFingerUpdated (Leap.Pointable p)
@@ -59,7 +68,6 @@ public class ZeigerController : MonoBehaviour {
 	
 	private void ResetClock(){
 			
-		Debug.Log(CalculateHourHandRotation());
 		//set rotation to current time
 		iTween.RotateTo(hourHand.gameObject, new Vector3(0,0, CalculateHourHandRotation()), 1f);
 		iTween.RotateTo(minuteHand.gameObject, new Vector3(0,0, CalculateMinuteHandRotation()), 1f);
@@ -68,25 +76,32 @@ public class ZeigerController : MonoBehaviour {
 	}
 	
 	private void setHourHandColor(float angle){
-		
+
 		float h = angle > 0.0f ? Helper.Map(angle, 1.0f, MAX_ANGLE_STEP, 120f, 0f) : 120f;
 		
 		Color hourHandColor = Helper.ColorFromHSV(h, 1f, 1f);
-		hourHand.renderer.material.color = hourHandColor;
+		magnifier.renderer.material.color = hourHandColor;
 	}
 
 	void HandleLeapInputPointingFingerLost ()
 	{
-		hourHand.renderer.material.color = Color.white;
-		float rotZSnapped = (float)(Math.Round(minuteHand.transform.localRotation.eulerAngles.z / 90) * 90);
-		iTween.RotateTo(minuteHand.gameObject, new Vector3(0,0,rotZSnapped), 0.5f);
+		
+		//reset to default material
+		magnifier.renderer.material = defaultMaterial;
+		
 		Invoke("ResetClock", secondsUntilReset);
 		
 	}
 
 	void HandleLeapInputPointingFingerFound (Leap.Pointable p)
 	{
-
+		
+		Debug.Log ("Finger found");
+		
+		//change material to show possiblity of interaction
+		magnifier.renderer.material = interactionMaterial;
+		
+		//init position variables
 		previousPos = CenterToFingerTip(p.StabilizedTipPosition.ToUnityTranslated());
 		CancelInvoke("ResetClock");
 		
