@@ -14,7 +14,7 @@ public class GearRotation : MonoBehaviour {
 	void Start () {
 		Sequence seq = new Sequence(new SequenceParms().Loops(-1, loopType));
 		seq.AppendInterval(delayBefore);
-		Tweener tween = HOTween.To(this.transform, duration, new TweenParms().Ease(easing).Prop("rotation", new Vector3(0,0,angle)));
+		Tweener tween = HOTween.To(this.transform, duration, new TweenParms().Ease(easing).Prop("rotation", new Vector3(0,0,angle), true));
 		seq.Append(tween);
 		seq.AppendInterval(delayAfter);
 		
