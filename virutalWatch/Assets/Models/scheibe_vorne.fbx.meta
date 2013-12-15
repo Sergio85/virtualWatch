@@ -17,6 +17,9 @@ ModelImporter:
     100022: s_v_w2_rad_2
     100024: s_v_w3_rad_1
     100026: s_v_w3_rad_2
+    100028: sv_w1
+    100030: sv_w2
+    100032: sv_w3
     400000: s_v_rad_1
     400002: s_v_rad_2
     400004: s_v_rad_3
@@ -31,6 +34,9 @@ ModelImporter:
     400022: s_v_w2_rad_2
     400024: s_v_w3_rad_1
     400026: s_v_w3_rad_2
+    400028: sv_w1
+    400030: sv_w2
+    400032: sv_w3
     2300000: s_v_rad_1
     2300002: s_v_rad_2
     2300004: s_v_rad_3
