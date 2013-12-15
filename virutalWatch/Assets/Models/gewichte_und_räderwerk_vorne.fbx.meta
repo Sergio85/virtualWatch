@@ -50,6 +50,10 @@ ModelImporter:
     100088: pCube5
     100090: pCylinder1
     100092: zeiger_h
+    100094: rad_1_gewicht_L
+    100096: rad_1_gewicht_R
+    100098: rad_2_gewicht_L
+    100100: rad_2_gewicht_R
     400000: gewicht_L
     400002: gewicht_R
     400004: //RootNode
@@ -97,6 +101,10 @@ ModelImporter:
     400088: pCube5
     400090: pCylinder1
     400092: zeiger_h
+    400094: rad_1_gewicht_L
+    400096: rad_1_gewicht_R
+    400098: rad_2_gewicht_L
+    400100: rad_2_gewicht_R
     2300000: gewicht_L
     2300002: gewicht_R
     2300004: h_min_rad_1
@@ -136,6 +144,10 @@ ModelImporter:
     2300072: pCube5
     2300074: pCylinder1
     2300076: zeiger_h
+    2300078: rad_1_gewicht_L
+    2300080: rad_1_gewicht_R
+    2300082: rad_2_gewicht_L
+    2300084: rad_2_gewicht_R
     3300000: gewicht_L
     3300002: gewicht_R
     3300004: h_min_rad_1
@@ -175,6 +187,10 @@ ModelImporter:
     3300072: pCube5
     3300074: pCylinder1
     3300076: zeiger_h
+    3300078: rad_1_gewicht_L
+    3300080: rad_1_gewicht_R
+    3300082: rad_2_gewicht_L
+    3300084: rad_2_gewicht_R
     4300000: welle_gewicht_L
     4300002: rolle_gewicht_L
     4300004: rad_gewicht_L
@@ -214,6 +230,10 @@ ModelImporter:
     4300072: pCylinder1
     4300074: pCube4
     4300076: zeiger_h
+    4300078: rad_1_gewicht_L
+    4300080: rad_2_gewicht_L
+    4300082: rad_1_gewicht_R
+    4300084: rad_2_gewicht_R
     9500000: //RootNode
   materials:
     importMaterials: 0

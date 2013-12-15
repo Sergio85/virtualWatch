@@ -33,6 +33,12 @@ ModelImporter:
     100054: zeiger_h
     100056: pendel_stange_L
     100058: pendel_stange_R
+    100060: lupe
+    100062: pendel_stangen_halter
+    100064: w2_rad_3
+    100066: w3_rad_3
+    100068: w6_rad_2
+    100070: zeiger
     400000: anker
     400002: anker_zahn_1
     400004: anker_zahn_2
@@ -63,6 +69,12 @@ ModelImporter:
     400054: zeiger_h
     400056: pendel_stange_L
     400058: pendel_stange_R
+    400060: lupe
+    400062: pendel_stangen_halter
+    400064: w2_rad_3
+    400066: w3_rad_3
+    400068: w6_rad_2
+    400070: zeiger
     2300000: anker
     2300002: anker_zahn_1
     2300004: anker_zahn_2
@@ -86,6 +98,12 @@ ModelImporter:
     2300040: zeiger_h
     2300042: pendel_stange_L
     2300044: pendel_stange_R
+    2300046: lupe
+    2300048: pendel_stangen_halter
+    2300050: w2_rad_3
+    2300052: w3_rad_3
+    2300054: w6_rad_2
+    2300056: zeiger
     3300000: anker
     3300002: anker_zahn_1
     3300004: anker_zahn_2
@@ -109,6 +127,12 @@ ModelImporter:
     3300040: zeiger_h
     3300042: pendel_stange_L
     3300044: pendel_stange_R
+    3300046: lupe
+    3300048: pendel_stangen_halter
+    3300050: w2_rad_3
+    3300052: w3_rad_3
+    3300054: w6_rad_2
+    3300056: zeiger
     4300000: welle_1
     4300002: w1_rad_1
     4300004: w1_rad_2
@@ -132,6 +156,12 @@ ModelImporter:
     4300040: w6_rad_1
     4300042: pendel_stange_R
     4300044: pendel_stange_L
+    4300046: zeiger
+    4300048: lupe
+    4300050: w2_rad_3
+    4300052: w3_rad_3
+    4300054: pendel_stangen_halter
+    4300056: w6_rad_2
     7400000: Take 001
     9500000: //RootNode
   materials:

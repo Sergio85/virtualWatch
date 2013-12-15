@@ -11,6 +11,12 @@ ModelImporter:
     100010: s_h_welle_3
     100012: scheibe_hinten
     100014: //RootNode
+    100016: s_h_w1_rad_1
+    100018: s_h_w1_rad_2
+    100020: s_h_w2_rad_1
+    100022: s_h_w2_rad_2
+    100024: s_h_w3_rad_1
+    100026: s_h_w3_rad_2
     400000: s_h_rad_1
     400002: s_h_rad_2
     400004: s_h_rad_3
@@ -19,6 +25,12 @@ ModelImporter:
     400010: s_h_welle_3
     400012: scheibe_hinten
     400014: //RootNode
+    400016: s_h_w1_rad_1
+    400018: s_h_w1_rad_2
+    400020: s_h_w2_rad_1
+    400022: s_h_w2_rad_2
+    400024: s_h_w3_rad_1
+    400026: s_h_w3_rad_2
     2300000: s_h_rad_1
     2300002: s_h_rad_2
     2300004: s_h_rad_3
@@ -26,6 +38,12 @@ ModelImporter:
     2300008: s_h_welle_2
     2300010: s_h_welle_3
     2300012: scheibe_hinten
+    2300014: s_h_w1_rad_1
+    2300016: s_h_w1_rad_2
+    2300018: s_h_w2_rad_1
+    2300020: s_h_w2_rad_2
+    2300022: s_h_w3_rad_1
+    2300024: s_h_w3_rad_2
     3300000: s_h_rad_1
     3300002: s_h_rad_2
     3300004: s_h_rad_3
@@ -33,6 +51,12 @@ ModelImporter:
     3300008: s_h_welle_2
     3300010: s_h_welle_3
     3300012: scheibe_hinten
+    3300014: s_h_w1_rad_1
+    3300016: s_h_w1_rad_2
+    3300018: s_h_w2_rad_1
+    3300020: s_h_w2_rad_2
+    3300022: s_h_w3_rad_1
+    3300024: s_h_w3_rad_2
     4300000: scheibe_hinten
     4300002: s_h_rad_1
     4300004: s_h_welle_1
@@ -40,6 +64,12 @@ ModelImporter:
     4300008: s_h_welle_2
     4300010: s_h_rad_3
     4300012: s_h_welle_3
+    4300014: s_h_w1_rad_1
+    4300016: s_h_w1_rad_2
+    4300018: s_h_w2_rad_1
+    4300020: s_h_w2_rad_2
+    4300022: s_h_w3_rad_1
+    4300024: s_h_w3_rad_2
     9500000: //RootNode
   materials:
     importMaterials: 1
