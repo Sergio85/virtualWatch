@@ -172,6 +172,8 @@ public class GUI_Infoscreen : MonoBehaviour {
 	
 	void slideUp() {
 		
+		AudioManager.Instance.Play(Soundname.wipein, false);
+		
 		isVisible = true;
 		Vector3 glassOben = new Vector3 (0f, 8f, -18f);	
 		iTween.MoveTo (glasscheibe_info, glassOben, 1f);
@@ -181,6 +183,8 @@ public class GUI_Infoscreen : MonoBehaviour {
 	}
 
 	void slideDown() {
+		
+		AudioManager.Instance.Play(Soundname.wipeout, false);
 		
 		isVisible = false;
 		Vector3 glassUnten = new Vector3 (0f, -68f, -18f);	
