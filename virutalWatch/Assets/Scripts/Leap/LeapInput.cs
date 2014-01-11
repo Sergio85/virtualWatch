@@ -161,7 +161,7 @@ public static class LeapInput
 	private static void DispatchLostEvents(Frame newFrame, Frame oldFrame)
 	{
 		
-		if(newFrame.Hands.Empty && !oldFrame.Hands.Empty){
+		if(newFrame.Hands.IsEmpty && !oldFrame.Hands.IsEmpty){
 			if(InteractionEnd != null)
 				InteractionEnd();
 		}
@@ -186,7 +186,7 @@ public static class LeapInput
 	private static void DispatchFoundEvents(Frame newFrame, Frame oldFrame)
 	{
 		
-		if(!newFrame.Hands.Empty && oldFrame.Hands.Empty){
+		if(!newFrame.Hands.IsEmpty && oldFrame.Hands.IsEmpty){
 			if(InteractionStart != null)
 				InteractionStart();
 		}
