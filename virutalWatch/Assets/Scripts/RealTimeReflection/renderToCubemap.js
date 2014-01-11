@@ -22,7 +22,7 @@ function UpdateCubemap (faceMask : int) {
 	if (!cam) {
 		var go = new GameObject ("CubemapCamera", Camera);
 		go.hideFlags = HideFlags.HideAndDontSave;
-		go.transform.position = transform.position;
+		go.transform.position = transform.localPosition;
 		go.transform.rotation = Quaternion.identity;
 		cam = go.camera;
 		cam.farClipPlane = 100; // don't render very far into cubemap
@@ -36,7 +36,7 @@ function UpdateCubemap (faceMask : int) {
 		renderer.sharedMaterial.SetTexture ("_SpecCubeIBL", rtex);
 	}
 	
-	cam.transform.position = transform.position;
+	cam.transform.position = transform.localPosition;
 	cam.RenderToCubemap (rtex, faceMask);
 }
 function OnDisable () {

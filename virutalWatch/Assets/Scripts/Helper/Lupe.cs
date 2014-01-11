@@ -16,7 +16,7 @@ public class Lupe : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		lupe.transform.rotation = Quaternion.Euler(90, 0, 0);
-		Vector3 lupenOffset = new Vector3 (0, -2f, 0);
+		Vector3 lupenOffset = new Vector3 (0, 0, 0);
 		transform.position = lupe.transform.position;
 		transform.position += lupenOffset;
 

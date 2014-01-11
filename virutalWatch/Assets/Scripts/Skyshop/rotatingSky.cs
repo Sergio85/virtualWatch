@@ -18,7 +18,8 @@ public class rotatingSky : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		transform.Rotate(0,020f*Time.deltaTime,0);
+		transform.Rotate(0,0001f*Time.deltaTime,0);
+		//transform.Rotate(0001f*Time.deltaTime,0,0);
 		transform.localScale = bigScale;
 		
 	}

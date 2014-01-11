@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class GUI_Infoscreen : MonoBehaviour {
+
+	public GameObject glasscheibe_info;
 	
 	public GUIStyle ueberschriftStyle;
 	public GUIStyle fachStyle;
 	public GUIStyle restStyle;
 	
 	public int margin_ueberschrift_;
-	public int margin_fach_ = 80;
-	public int margin_raumzeit_ = 130;
-	public int margin_newVL = 130;
+	private int margin_fach_ = 200;
+	public int margin_raumzeit_ = 150;
+	public int margin_newVL = 150;
 	public int margin_start_ = 20;
 	
 	private GUIContent ueberschrift;
@@ -20,10 +22,11 @@ public class GUI_Infoscreen : MonoBehaviour {
 	private List<Veranstaltung> VeranstalungListe = new List<Veranstaltung>();
 	private List<News> NewsListe = new List<News>();
 
-	private Rect areaRectVL = new Rect(0,2000, Screen.width, Screen.height);
+	private Rect areaRectVL = new Rect(0,4000, Screen.width, Screen.height);
 	private Rect areaRectNews = new Rect(2000,2000, Screen.width, Screen.height);
 	
 	private bool infoActive = false;
+	private bool glassActive = false;
 	
 	
 	
@@ -57,7 +60,7 @@ public class GUI_Infoscreen : MonoBehaviour {
 		
 		/////////////////////////////////////////////////////////////////////////
 		
-		
+		infoActive = true;
 		
 	}
 	
@@ -65,25 +68,31 @@ public class GUI_Infoscreen : MonoBehaviour {
 	void Update () {
 		
 		if ( Input.GetKey(KeyCode.UpArrow) ) {
-			infoActive = true;
+	
 		}
 		if ( Input.GetKey(KeyCode.RightArrow) ) {
-			slideRight();
+			slideUp();
 		}	
 		if ( Input.GetKey(KeyCode.LeftArrow) ) {
-			slideLeft();
+			slideDown();
 		}
 		
 		
+	}
+
+	void slideGlass() {
+
+
+		//MoveTo(GameObject target, Vector3 position, float time)
+
 	}
 	
 	void OnGUI() {
 		
 		
 		if(infoActive) {
-		
 
-			
+
 			// VORLESUNGEN //////////////////////////////////////////////////////////////////////////////////
 			GUILayout.BeginArea(areaRectVL);
 			
@@ -95,18 +104,18 @@ public class GUI_Infoscreen : MonoBehaviour {
 				
 				GUI.Box (new Rect (180,margin_fach_,150,40), VeranstalungListe[i].getFachName(), fachStyle);
 				GUI.Box (new Rect (180,margin_raumzeit_,50,20), VeranstalungListe[i].getZeit(), restStyle);
-				GUI.Box (new Rect (280,margin_raumzeit_,150,20), VeranstalungListe[i].getRaum(), restStyle);
+				GUI.Box (new Rect (330,margin_raumzeit_,150,20), VeranstalungListe[i].getRaum(), restStyle);
 				
-				margin_fach_ += 70;
-				margin_raumzeit_ += 70;
+				margin_fach_ += 100;
+				margin_raumzeit_ += 100;
 	
 			}
 			
 			
 			GUILayout.EndArea();
 			
-			margin_fach_ = 80;
-			margin_raumzeit_ = 110;
+			margin_fach_ = 200;
+			margin_raumzeit_ = 150;
 			
 			///////////////////////////////////////////////////////////////////////////////////////////////////
 			
@@ -137,15 +146,32 @@ public class GUI_Infoscreen : MonoBehaviour {
 			margin_raumzeit_ = 110;
 			
 			///////////////////////////////////////////////////////////////////////////////////////////////////
-			
+
+
 		}
 	}
 	
-	
+	void slideUp() {
+
+		Vector3 glassOben = new Vector3 (0f, 8f, -18f);	
+		iTween.MoveTo (glasscheibe_info, glassOben, 1f);
+
+		iTween.ValueTo(gameObject, iTween.Hash("from", areaRectVL, "to", inScreenUp(areaRectVL), "delay", 0.3f, "time", 1f, "easetype", iTween.EaseType.easeInOutSine, "onupdate", "updateRectVL"));
+
+	}
+
+	void slideDown() {
+		
+		Vector3 glassUnten = new Vector3 (0f, -68f, -18f);	
+		iTween.MoveTo (glasscheibe_info, glassUnten, 1f);
+		
+		iTween.ValueTo(gameObject, iTween.Hash("from", areaRectVL, "to", offScreenDown(areaRectVL), "delay", 0f, "time", 1f, "easetype", iTween.EaseType.easeInOutSine, "onupdate", "updateRectVL"));
+		
+	}
 	
 	
 	void slideLeft() {			
-		iTween.ValueTo(gameObject, iTween.Hash("from", areaRectVL, "to", offScreenLeft(areaRectVL), "delay", 0.5f, "time", 1.25f, "easetype", iTween.EaseType.easeInOutSine, "onupdate", "updateRectVL"));
+		iTween.ValueTo(gameObject, iTween.Hash("from", areaRectVL, "to", offScreenLeft(areaRectVL), "delay", 0f, "time", 1.25f, "easetype", iTween.EaseType.easeInOutSine, "onupdate", "updateRectVL"));
 		iTween.ValueTo(gameObject, iTween.Hash("from", areaRectNews, "to", inScreenRight(areaRectNews), "delay", 0f, "time", 1.25f, "easetype", iTween.EaseType.easeInOutSine, "onupdate", "updateRectNews"));
 	}
 	
@@ -169,7 +195,16 @@ public class GUI_Infoscreen : MonoBehaviour {
 	Rect inScreenRight ( Rect input) {
 		return new Rect(new Rect(0,2000, Screen.width, Screen.height));
 	}
-	
+
+	Rect inScreenUp ( Rect input) {
+		return new Rect(new Rect(0,2000, Screen.width, Screen.height));
+	}
+
+	Rect offScreenDown ( Rect input) {
+		return new Rect(new Rect(0,4000, Screen.width, Screen.height));
+	}
+
+
 	void updateRectVL ( Rect input )	{
 		areaRectVL = input;
 	}
