@@ -12,12 +12,14 @@ public class ZeigerController : MonoBehaviour {
 	public Material interactionMaterial;
 	private Material defaultMaterial;
 	
+	public int secondsUntilReset = 10;
+	
 	//Lupe
 	private GameObject magnifier;
 	
 	
 	
-	public int secondsUntilReset = 10;
+	
 	
 	private Vector2 previousPos;
 	private Vector2 center;

@@ -10,6 +10,9 @@ public class GUI_Infoscreen : MonoBehaviour {
 	public GUIStyle fachStyle;
 	public GUIStyle restStyle;
 	
+	public int secondsUntilReset = 10;
+	
+	
 	public int margin_ueberschrift_;
 	private int margin_fach_ = 200;
 	public int margin_raumzeit_ = 150;
@@ -28,12 +31,15 @@ public class GUI_Infoscreen : MonoBehaviour {
 	private bool infoActive = false;
 	private bool glassActive = false;
 	
+	private bool isVisible = false;
+	
 	
 	
 	// Use this for initialization
 	void Start () {
 		
-		// TESTDATEN ////////////////////////////////////////////////////////////
+		LeapInput.InteractionStart += OnInteractionStart;
+		LeapInput.InteractionEnd += OnInteractionEnd;
 		
 		// Veranstaltungen	
 		fachName = new GUIContent("_Computer Animation");
@@ -62,6 +68,19 @@ public class GUI_Infoscreen : MonoBehaviour {
 		
 		infoActive = true;
 		
+	}
+	
+	void OnInteractionStart(){
+		if(!isVisible){
+			slideUp();
+		}
+		else{
+			CancelInvoke("slideDown");
+		}
+	}
+	
+	void OnInteractionEnd(){
+		Invoke("slideDown", secondsUntilReset);
 	}
 	
 	// Update is called once per frame
@@ -152,7 +171,10 @@ public class GUI_Infoscreen : MonoBehaviour {
 	}
 	
 	void slideUp() {
-
+		
+		AudioManager.Instance.Play(Soundname.wipein, false);
+		
+		isVisible = true;
 		Vector3 glassOben = new Vector3 (0f, 8f, -18f);	
 		iTween.MoveTo (glasscheibe_info, glassOben, 1f);
 
@@ -162,6 +184,9 @@ public class GUI_Infoscreen : MonoBehaviour {
 
 	void slideDown() {
 		
+		AudioManager.Instance.Play(Soundname.wipeout, false);
+		
+		isVisible = false;
 		Vector3 glassUnten = new Vector3 (0f, -68f, -18f);	
 		iTween.MoveTo (glasscheibe_info, glassUnten, 1f);
 		

@@ -24,6 +24,9 @@ public static class LeapInput
 	public delegate void HandUpdatedHandler( Hand h );
 	public delegate void ObjectLostHandler( int id );
 	
+	public delegate void InteractionFoundHandler();
+	public delegate void InteractionLostHandler();
+	
 	public delegate void FingerPointingHandler(Pointable p);
 	public delegate void FingerUpdatedHandler(Pointable p);
 	public delegate void FingerLostHandler();
@@ -56,6 +59,9 @@ public static class LeapInput
 	public static event SwipeGestureUpdateHandler VerticalSwipeUpdate;
 	public static event SwipeGestureEndHandler HorizontalSwipeEnd;
 	public static event SwipeGestureEndHandler VerticalSwipeEnd;
+	
+	public static event InteractionFoundHandler InteractionStart;
+	public static event InteractionLostHandler InteractionEnd;
 	
 	public static Leap.Frame Frame
 	{
@@ -154,6 +160,12 @@ public static class LeapInput
 	
 	private static void DispatchLostEvents(Frame newFrame, Frame oldFrame)
 	{
+		
+		if(newFrame.Hands.IsEmpty && !oldFrame.Hands.IsEmpty){
+			if(InteractionEnd != null)
+				InteractionEnd();
+		}
+		
 		foreach( Hand h in oldFrame.Hands )
 		{
 			if( !h.IsValid )
@@ -172,7 +184,12 @@ public static class LeapInput
 		
 	}
 	private static void DispatchFoundEvents(Frame newFrame, Frame oldFrame)
-	{		
+	{
+		
+		if(!newFrame.Hands.IsEmpty && oldFrame.Hands.IsEmpty){
+			if(InteractionStart != null)
+				InteractionStart();
+		}
 		
 		foreach( Hand h in newFrame.Hands )
 		{

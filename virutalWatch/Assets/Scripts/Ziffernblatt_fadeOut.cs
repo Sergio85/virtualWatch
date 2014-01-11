@@ -8,7 +8,10 @@ public class Ziffernblatt_fadeOut : MonoBehaviour {
 	public GameObject striche_alle;
 	public GameObject ziffern_alle;
 	public GameObject fonts;
-	private bool active;
+	
+	public float fadeTime = 1f;
+	
+	private bool isVisible;
 	private Color colorZiffernblatt;
 	Color color_striche;
 	Color color_ziffern;
@@ -22,51 +25,63 @@ public class Ziffernblatt_fadeOut : MonoBehaviour {
 		color_ziffern = ziffern_alle.renderer.material.color;
 
 		color_backup = colorZiffernblatt;
-		active = true;
+		isVisible = true;
+		
+		LeapInput.VerticalSwipeStart += OnVerticalSwipeStart;
+		
+		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-		if ( Input.GetKey(KeyCode.DownArrow) ) {
-
-
-			if(active) {
-				if(ziffernBlatt != null && striche_alle != null && ziffern_alle != null && fonts != null) {
-						
-					//ziffernblatt	
-						colorZiffernblatt.a = 0.1f;
-						iTween.ColorTo(ziffernBlatt, colorZiffernblatt, 3f);
-
-						//striche	
-						color_striche.a = 0.2f;
-						iTween.ColorTo(striche_alle, color_striche, 3f);
-
-						// ziffern
-						color_ziffern.a = 0.2f;
-						iTween.ColorTo(ziffern_alle, color_ziffern, 3f);
-
-
-						active = false;
-					}
-			}
-			else {
-						//ziffernblatt
-						colorZiffernblatt.a = 1;
-						iTween.ColorTo(ziffernBlatt, color_backup, 3f);
-
-						//striche
-						color_striche.a = 1;
-						iTween.ColorTo(striche_alle, color_striche, 3f);
-						
-						// ziffern
-						color_ziffern.a = 1;
-						iTween.ColorTo(ziffern_alle, color_ziffern, 3f);
-
-
-						active = true;
-				}
-			}
-	
+	private void OnVerticalSwipeStart(CustomSwipeGesture swipeGesture){
+		if(swipeGesture.SwipeDirection == Interaction.Direction.TOP){
+			FadeOut();
 		}
+		else if(swipeGesture.SwipeDirection == Interaction.Direction.BOTTOM){
+			FadeIn();
+		}
+	}
+	
+	private void FadeOut(){
+		if(isVisible){
+			
+			AudioManager.Instance.Play(Soundname.wipein, false);
+			
+			colorZiffernblatt.a = 0.1f;
+			iTween.ColorTo(ziffernBlatt, colorZiffernblatt, fadeTime);
+	
+			//striche	
+			color_striche.a = 0.2f;
+			iTween.ColorTo(striche_alle, color_striche, fadeTime);
+	
+			// ziffern
+			color_ziffern.a = 0.2f;
+			iTween.ColorTo(ziffern_alle, color_ziffern, fadeTime);
+	
+	
+			isVisible = false;
+		}
+	}
+	
+	private void FadeIn(){
+		if(!isVisible){
+			AudioManager.Instance.Play(Soundname.wipeout, false);
+			
+			colorZiffernblatt.a = 1;
+			iTween.ColorTo(ziffernBlatt, color_backup, fadeTime);
+	
+			//striche
+			color_striche.a = 1;
+			iTween.ColorTo(striche_alle, color_striche, fadeTime);
+			
+			// ziffern
+			color_ziffern.a = 1;
+			iTween.ColorTo(ziffern_alle, color_ziffern, fadeTime);
+	
+	
+			isVisible = true;
+		}
+	}
+	
+	
+	
 }
