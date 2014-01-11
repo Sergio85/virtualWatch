@@ -179,6 +179,19 @@ public class AudioManager : MonoBehaviour
 	{
 		mySourceAudio[(byte)n].Stop();
 	}
+	
+	public void PlayAndRepeat(int times){
+		StartCoroutine("PlayXLoop", times);	
+	}
+	
+	private IEnumerator PlayXLoop(int gongs){
+		
+		for(int t=0;t<gongs;t++){
+			AudioManager.Instance.Play(Soundname.gong,false);
+		yield return new WaitForSeconds(AudioManager.Instance.GetLenghAudioClip(Soundname.gong));
+		
+		}
+	}
 	//******    3D Sound --------------------------------------------------------------------------------------------
 	
     public AudioSource Play(AudioClip clip, Transform emitter)
